@@ -3,13 +3,15 @@ package com.springrest.springrest.controller;
 import com.springrest.springrest.entitities.Course;
 import com.springrest.springrest.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class MyController {
-     @Autowired
+    @Autowired
      private CourseService courseService;
 
     @GetMapping("/home")
@@ -31,17 +33,26 @@ public class MyController {
         return this.courseService.getCourse(Long.parseLong(courseId));
     }
     @PostMapping("/courses")
-    public String addCourse(@RequestBody Course course){
+    public Course addCourse(@RequestBody Course course){
       return this.courseService.addCourse(course);
     }
 
+//    @DeleteMapping("/courses/{courseId}")
+//    public String deleteCourse(@PathVariable String courseId){
+//        return this.courseService.deleteCourse(Long.parseLong(courseId));
+//    }
     @DeleteMapping("/courses/{courseId}")
-    public String deleteCourse(@PathVariable String courseId){
-        return this.courseService.deleteCourse(Long.parseLong(courseId));
+    public ResponseEntity<HttpStatus> deleteCourse(@PathVariable String courseId){
+        try{
+            this.courseService.deleteCourse(Long.parseLong(courseId));
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/courses")
-    public String updateCourse(@RequestBody Course course){
+    public Course updateCourse(@RequestBody Course course){
         return this.courseService.updateCourse(course);
     }
 }

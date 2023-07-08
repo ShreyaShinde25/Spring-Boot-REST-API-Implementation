@@ -10,9 +10,9 @@ public interface CourseService {
 
     public Course getCourse(long courseId);
 
-    public String addCourse(Course course);
+    public Course addCourse(Course course);
 
-    public String deleteCourse(long courseId);
+    public void deleteCourse(long parseLong);
 
-    public String updateCourse(Course course);
+    public Course updateCourse(Course course);
 }
